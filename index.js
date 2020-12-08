@@ -1,7 +1,6 @@
 var Twitter = require('twit');
 var fs = require('fs');
 var path = require('path');
-var config = require(path.join(__dirname, 'config.js'));
 
 var T = new Twitter({
 	consumer_key: process.env.CONSUMER_KEY,
