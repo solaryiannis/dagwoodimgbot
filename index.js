@@ -45,3 +45,7 @@ function upload_random_image(images){
   }
 });
 }
+
+setInterval( function(){
+  tweetRandomImage();
+}, 10800000 );
