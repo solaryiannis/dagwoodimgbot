@@ -16,7 +16,7 @@ function randomFromArray(images){
 }
 
 function tweetRandomImage(){
-  console.log( 'starting method...' );
+  console.log( 'getting images...' );
   fs.readdir( __dirname + '/images', function( err, files ) {
     if ( err ){
       console.log( 'error:', err );
@@ -61,5 +61,6 @@ function tweetRandomImage(){
 }
 
 setInterval( function() {
+  console.log( 'starting method...' );
   tweetRandomImage();
 }, (60 * 60 * 1000));
