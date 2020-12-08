@@ -16,47 +16,51 @@ function random_from_array(images){
 }
 
 function tweetRandomImage(){
+  /* First, read the content of the images folder. */
+
   fs.readdir( __dirname + '/images', function( err, files ) {
     if ( err ){
       console.log( 'error:', err );
+      return;
     }
     else{
       let images = [];
       files.forEach( function( f ) {
         images.push( f );
       } );
-      console.log('Opening an image...');
-      const imagePath = path.join('./images/' + randomFromArray( images ) ),
+
+      console.log( 'opening an image...' );
+
+      const imagePath = path.join( __dirname, '/images/' + randomFromArray( images ) ),
             b64content = fs.readFileSync( imagePath, { encoding: 'base64' } );
 
-  console.log('Uploading an image...');
+      console.log( 'uploading an image...', imagePath );
 
-  T.post('media/upload', { media_data: b64content }, function (err, data, response) {
-    if (err){
-      console.log('ERROR:');
-      console.log(err);
-    }
-    else{
-      console.log('Image uploaded!');
-      console.log('Now tweeting it...');
-
-      T.post('statuses/update', {
-        media_ids: new Array(data.media_id_string)
-      },
-      function(err, data, response) {
-        if (err){
-          console.log('ERROR:');
-          console.log(err);
+      T.post( 'media/upload', { media_data: b64content }, function ( err, data, response ) {
+        if ( err ){
+          console.log( 'error:', err );
         }
         else{
-          console.log('Posted an image!');
+          console.log( 'image uploaded, now tweeting it...' );
+
+          T.post( 'statuses/update', {
+            media_ids: new Array( data.media_id_string )
+          },
+            function( err, data, response) {
+              if (err){
+                console.log( 'error:', err );
+              }
+              else{
+                console.log( 'posted an image!' );
+              }
+            }
+          );
         }
-      }
-    );
-  }
-});
+      } );
+    }
+  } );
 }
 
 setInterval( function() {
-  tweetRandomImage()
+  tweetRandomImage();
 }, (60 * 60 * 1000));
