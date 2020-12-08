@@ -11,53 +11,57 @@ var T = new Twitter({
 
 console.log('Starting!');
 
-function randomFromArray(images){
+function readdirImage() {
+  console.log( 'getting images...' );
+  fs.readdir('./images', tweetRandomImage(err, files));
+}
+
+function randomFromArray(images) {
   return images[Math.floor(Math.random() * images.length)];
 }
 
-function tweetRandomImage(){
-  console.log( 'getting images...' );
-  fs.readdir('./images', function( err, files ) {
-    if ( err ){
-      console.log( 'error:', err );
-      return;
-    }
-    else{
-      let images = [];
-      files.forEach( function( f ) {
-        images.push( f );
-      } );
+function tweetRandomImage(err, files) {
+  if ( err ){
+    console.log( 'error:', err );
+    return;
+  }
+  else{
+    let images = [];
+    files.forEach( function( f ) {
+      images.push( f );
+    });
 
-      console.log( 'opening an image...' );
+    console.log( 'opening an image...' );
 
-      const imagePath = path.join('./images/' + randomFromArray( images ) ),
-            b64content = fs.readFileSync( imagePath, { encoding: 'base64' } );
+    const imagePath = path.join('./images/' + randomFromArray( images ) ),
+          b64content = fs.readFileSync( imagePath, { encoding: 'base64' } );
 
-      console.log( 'uploading an image...', imagePath );
+    console.log( 'uploading an image...', imagePath );
 
-      T.post( 'media/upload', { media_data: b64content }, function ( err, data, response ) {
-        if ( err ){
-          console.log( 'error:', err );
-        }
-        else{
-          console.log( 'image uploaded, now tweeting it...' );
+    T.post( 'media/upload', { media_data: b64content }, function ( err, data, response ) {
+      if ( err ){
+        console.log( 'error:', err );
+      }
+      else{
+        console.log( 'image uploaded, now tweeting it...' );
 
-          T.post( 'statuses/update', {
-            media_ids: new Array( data.media_id_string )
-          },
-            function( err, data, response) {
-              if (err){
-                console.log( 'error:', err );
-              }
-              else{
-                console.log( 'posted an image!' );
-              }
+        T.post( 'statuses/update', {
+          media_ids: new Array( data.media_id_string )
+        },
+          function( err, data, response) {
+            if (err){
+              console.log( 'error:', err );
             }
-          );
-        }
-      } );
-    }
-  } );
+            else{
+              console.log( 'posted an image!' );
+            }
+          }
+        );
+
+      }
+    });
+
+  }
 }
 
-var run = setInterval(tweetRandomImage(), (60 * 60 * 1000));
+var run = setInterval(readdirImage(), (60 * 60 * 1000));
