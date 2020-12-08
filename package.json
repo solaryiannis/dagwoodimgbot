@@ -1,14 +1,23 @@
 {
-  "name": "twitterbot",
+  "name": "dagwoodimgbot",
   "version": "1.0.0",
-  "description": "",
+  "description": "A bot that tweets random images of my dog, Dagwood, every few hours.",
   "main": "index.js",
+  "dependencies": {
+    "twit": "^2.2.11"
+  },
+  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/solaryiannis/dagwoodimgbot.git"
+  },
+  "author": "solaryiannis",
   "license": "ISC",
-  "dependencies": {
-    "twit": "^2.2.11"
-  }
+  "bugs": {
+    "url": "https://github.com/solaryiannis/dagwoodimgbot/issues"
+  },
+  "homepage": "https://github.com/solaryiannis/dagwoodimgbot#readme"
 }
