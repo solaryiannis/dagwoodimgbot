@@ -11,13 +11,12 @@ var T = new Twitter({
 
 console.log('Starting!');
 
-function random_from_array(images){
+function randomFromArray(images){
   return images[Math.floor(Math.random() * images.length)];
 }
 
 function tweetRandomImage(){
-  /* First, read the content of the images folder. */
-
+  console.log( 'starting method...' );
   fs.readdir( __dirname + '/images', function( err, files ) {
     if ( err ){
       console.log( 'error:', err );
