@@ -16,9 +16,18 @@ function random_from_array(images){
 }
 
 function tweetRandomImage(images){
-  console.log('Opening an image...');
-  var image_path = path.join('./images/' + random_from_array(images));
-  var b64content = fs.readFileSync(image_path, { encoding: 'base64' });
+  fs.readdir( __dirname + '/images', function( err, files ) {
+    if ( err ){
+      console.log( 'error:', err );
+    }
+    else{
+      let images = [];
+      files.forEach( function( f ) {
+        images.push( f );
+      } );
+      console.log('Opening an image...');
+      const imagePath = path.join('./images/' + randomFromArray( images ) ),
+            b64content = fs.readFileSync( imagePath, { encoding: 'base64' } );
 
   console.log('Uploading an image...');
 
