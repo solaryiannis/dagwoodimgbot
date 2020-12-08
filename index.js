@@ -49,5 +49,5 @@ function tweetRandomImage(images){
 }
 
 setInterval( function(){
-  tweetRandomImage();
+  tweetRandomImage(images);
 }, 10800000 );
