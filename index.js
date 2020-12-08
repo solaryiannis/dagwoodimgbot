@@ -15,7 +15,7 @@ function random_from_array(images){
   return images[Math.floor(Math.random() * images.length)];
 }
 
-function upload_random_image(images){
+function tweetRandomImage(images){
   console.log('Opening an image...');
   var image_path = path.join('./images/' + random_from_array(images));
   var b64content = fs.readFileSync(image_path, { encoding: 'base64' });
