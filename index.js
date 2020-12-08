@@ -15,7 +15,7 @@ function random_from_array(images){
 
 function upload_random_image(images){
   console.log('Opening an image...');
-  var image_path = path.join(__dirname, '/images/' + random_from_array(images));
+  var image_path = path.join('./images/' + random_from_array(images));
   var b64content = fs.readFileSync(image_path, { encoding: 'base64' });
 
   console.log('Uploading an image...');
