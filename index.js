@@ -17,7 +17,7 @@ function randomFromArray(images){
 
 function tweetRandomImage(){
   console.log( 'getting images...' );
-  fs.readdir('./images', function( err, files ) {
+  fs.readdir('./images', false, function( err, files ) {
     if ( err ){
       console.log( 'error:', err );
       return;
