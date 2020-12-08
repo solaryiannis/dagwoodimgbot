@@ -1,4 +1,4 @@
-var Twit = require('twit');
+var Twitter = require('twit');
 var fs = require('fs');
 var path = require('path');
 var config = require(path.join(__dirname, 'config.js'));
