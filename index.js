@@ -9,6 +9,8 @@ var T = new Twitter({
 	access_token_secret: process.env.ACCESS_TOKEN_SECRET
 });
 
+console.log('Starting!');
+
 function random_from_array(images){
   return images[Math.floor(Math.random() * images.length)];
 }
