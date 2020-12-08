@@ -17,7 +17,7 @@ function randomFromArray(images){
 
 function tweetRandomImage(){
   console.log( 'getting images...' );
-  fs.readdir( __dirname + '/images', function( err, files ) {
+  fs.readdir('./images', function( err, files ) {
     if ( err ){
       console.log( 'error:', err );
       return;
@@ -30,7 +30,7 @@ function tweetRandomImage(){
 
       console.log( 'opening an image...' );
 
-      const imagePath = path.join( __dirname, '/images/' + randomFromArray( images ) ),
+      const imagePath = path.join('./images/' + randomFromArray( images ) ),
             b64content = fs.readFileSync( imagePath, { encoding: 'base64' } );
 
       console.log( 'uploading an image...', imagePath );
