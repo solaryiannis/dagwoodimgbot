@@ -9,35 +9,43 @@ var T = new Twitter({
 	access_token_secret: process.env.ACCESS_TOKEN_SECRET
 });
 
-function tweetRandomImage() {
-  console.log('getting an image...');
-  const num = (Math.floor(Math.random()* 4)+1).toString();
-  const imagePath = `./images/${num}.jpg`;
-  const b64content = fs.readFileSync( imagePath, { encoding: 'base64' } );
+function randomFromArray( images ){
+  return images[Math.floor( Math.random() * images.length )];
+}
 
-  console.log('uploading image...', imagePath);
-
-  T.post('media/upload', { media_data: b64content }, (err, data, response) => {
-    if (err) {
+function tweetRandomImage(){
+  fs.readdir('./images', function( err, files ) {
+    if (err){
       console.log('error:', err);
+      return;
     }
-    else {
-      console.log('tweeting image...');
+    else{
+      let images = [];
+      files.forEach(function(f) {
+        images.push(f);
+      } );
 
-      T.post( 'statuses/update', {
-        media_ids: new Array( data.media_id_string )
-      },
-        (err, data, response) => {
-          if (err) {
-            console.log('error:', err);
-          }
-          else {
-            console.log('posted!');
-          }
-        });
+      const imagePath = path.join('.images/' + randomFromArray(images));
+      const b64content = fs.readFileSync(imagePath, {encoding: 'base64'});
 
-      }
-    });
-  }
+      T.post( 'media/upload', { media_data: b64content }, function ( err, data, response ) {
+        if (err) {
+          console.log('error:', err);
+        }
+        else {
+          T.post( 'statuses/update', {
+            media_ids: new Array( data.media_id_string )
+          },
+            function(err, data, response) {
+              if (err) {
+                console.log('error:', err);
+              }
+            }
+          );
+        }
+      } );
+    }
+  } );
+}
 
-var run = setInterval(tweetRandomImage, 10800000);
+var run = setInterval(tweetRandomImage, (1 * 60 * 1000));
