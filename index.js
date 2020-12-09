@@ -17,7 +17,7 @@ function tweetRandomImage() {
 
   console.log('uploading image...', imagePath);
 
-  T.post('media/upload', { media_data: b64content }, ( err, data, response) => {
+  T.post('media/upload', { media_data: b64content }, (err, data, response) => {
     if (err) {
       console.log('error:', err);
     }
@@ -40,4 +40,4 @@ function tweetRandomImage() {
     });
   }
 
-var run = setInterval(tweetRandomImage(), (60 * 60 * 1000));
+var run = setInterval(function(){tweetRandomImage()}, (60 * 60 * 1000));
