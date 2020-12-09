@@ -40,4 +40,6 @@ function tweetRandomImage() {
     });
   }
 
-var run = setInterval(function(){tweetRandomImage();}, (60 * 60 * 1000));
+  tweetRandomImage();
+
+//var run = setInterval(function(){tweetRandomImage();}, (60 * 60 * 1000));
