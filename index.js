@@ -13,7 +13,9 @@ console.log('Starting!');
 
 function readdirImage() {
   console.log( 'getting images...' );
-  fs.readdir('./images', tweetRandomImage(err, files));
+  fs.readdir('./images', (err, files) => {
+    tweetRandomImage(err, files)
+  });
 }
 
 function randomFromArray(images) {
