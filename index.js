@@ -17,21 +17,21 @@ function tweetRandomImage() {
 
   console.log('uploading image...', imagePath);
 
-  T.post('media/upload', { media_data: b64content }, function ( err, data, response) {
-    if ( err ){
+  T.post('media/upload', { media_data: b64content }, ( err, data, response) => {
+    if (err) {
       console.log('error:', err);
     }
-    else{
+    else {
       console.log('tweeting image...');
 
       T.post( 'statuses/update', {
         media_ids: new Array( data.media_id_string )
       },
-        function(err, data, response) {
-          if (err){
+        (err, data, response) => {
+          if (err) {
             console.log('error:', err);
           }
-          else{
+          else {
             console.log('posted!');
           }
         });
@@ -40,4 +40,4 @@ function tweetRandomImage() {
     });
   }
 
-var run = setInterval(tweetRandomImage(), (60 * 60 * 1000));
+var run = setInterval(() => tweetRandomImage(), (60 * 60 * 1000));
