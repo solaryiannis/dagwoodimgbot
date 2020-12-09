@@ -9,61 +9,35 @@ var T = new Twitter({
 	access_token_secret: process.env.ACCESS_TOKEN_SECRET
 });
 
-console.log('Starting!');
+function tweetRandomImage() {
+  console.log('getting an image...');
+  const num = (Math.floor(Math.random()* 4)+1).toString();
+  const imagePath = `./images/${num}.jpg`;
+  const b64content = fs.readFileSync( imagePath, { encoding: 'base64' } );
 
-function readdirImage() {
-  console.log( 'getting images...' );
-  fs.readdir('./images', (err, files) => {
-    tweetRandomImage(err, files)
-  });
-}
+  console.log('uploading image...', imagePath);
 
-function randomFromArray(images) {
-  return images[Math.floor(Math.random() * images.length)];
-}
+  T.post('media/upload', { media_data: b64content }, function ( err, data, response) {
+    if ( err ){
+      console.log('error:', err);
+    }
+    else{
+      console.log('tweeting image...');
 
-function tweetRandomImage(err, files) {
-  if ( err ){
-    console.log( 'error:', err );
-    return;
-  }
-  else{
-    let images = [];
-    files.forEach( function( f ) {
-      images.push( f );
-    });
-
-    console.log( 'opening an image...' );
-
-    const imagePath = path.join('./images/' + randomFromArray( images ) ),
-          b64content = fs.readFileSync( imagePath, { encoding: 'base64' } );
-
-    console.log( 'uploading an image...', imagePath );
-
-    T.post( 'media/upload', { media_data: b64content }, function ( err, data, response ) {
-      if ( err ){
-        console.log( 'error:', err );
-      }
-      else{
-        console.log( 'image uploaded, now tweeting it...' );
-
-        T.post( 'statuses/update', {
-          media_ids: new Array( data.media_id_string )
-        },
-          function( err, data, response) {
-            if (err){
-              console.log( 'error:', err );
-            }
-            else{
-              console.log( 'posted an image!' );
-            }
+      T.post( 'statuses/update', {
+        media_ids: new Array( data.media_id_string )
+      },
+        function(err, data, response) {
+          if (err){
+            console.log('error:', err);
           }
-        );
+          else{
+            console.log('posted!');
+          }
+        });
 
       }
     });
-
   }
-}
 
-var run = setInterval(readdirImage(), (60 * 60 * 1000));
+var run = setInterval(tweetRandomImage(), (60 * 60 * 1000));
